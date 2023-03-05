@@ -46,7 +46,7 @@ class DataManager:
         }
         response = requests.post(ENDPOINT,json=body)
         response.raise_for_status()
-        return response.json()
+        return flightData
 
     def update_city_details(code,price,depart,arrive):
         DataManager.add_iata()

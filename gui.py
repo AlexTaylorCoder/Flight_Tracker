@@ -57,7 +57,23 @@ class App(CTk):
 
        # ... create widgets ...
     def read_inputs(self):
-        add_city(dest=self.city_input.get(),dateFrom=self.dateFrom.get(),dateTo=self.dateTo.get(),price=self.price_input.get())
+        flightData = add_city(dest=self.city_input.get(),dateFrom=self.dateFrom.get(),dateTo=self.dateTo.get(),price=self.price_input.get())
+        # Add flight element
+        # DataManager.add_city()
+        
+        #Remove previous elements from tab by destroying frame    
+        self.sFrame.destroy()
+
+
+        #Rebuild frame with new elements
+
+        self.sFrame = ScrollableFrame(self.recTab)    
+        self.sFrame.pack(fill="both", expand=True)
+
+        #Add new searched elements to tab
+        for i,flight in enumerate(flightData):
+            self.add_flight_element(i,flight)
+
     def save_city(self):
         DataManager.add_city(self.addCityInput.get())
 
@@ -131,10 +147,13 @@ class App(CTk):
 
 
 def startGUI():
-    #Will need multithreading to fully optimize
+    # Will need multithreading to fully optimize
+    # Need to implement flight by location feature
     app = App()
     load_rec(app)
     load_saved(app)
+    app.position()
+
 
 
     app.mainloop()
